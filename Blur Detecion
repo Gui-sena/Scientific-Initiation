@@ -1,0 +1,12 @@
+!pip install face_recognition
+
+import face_recognition
+from PIL import Image
+import face_recognition
+import dlib
+from google.colab.patches import cv2_imshow
+import math
+import cv2
+import statistics
+from pathlib import Path
+from threading import Thread
