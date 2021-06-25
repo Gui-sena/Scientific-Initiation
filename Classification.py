@@ -11,7 +11,11 @@ from sklearn.metrics import plot_confusion_matrix
 import seaborn as sn
 from sklearn.model_selection import cross_validate
 from sklearn.linear_model import RidgeClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.linear_model import Perceptron
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+
 
 
 #extraindo a planilha e a normalizando
@@ -79,19 +83,36 @@ print(modelo.summary())
 
 #Cross-validate com vários modelos
 
-modelo = RidgeClassifier()
-modelo = LogisticRegression()
+modelo1 = RidgeClassifier()
+modelo2 = LogisticRegression()
+modelo3 = PassiveAggressiveClassifier()
+modelo4 = Perceptron()
+modelo5 = DecisionTreeClassifier()
+modelo6 = KNeighborsClassifier()
 
-resultados = cross_validate(modelo, features, target, return_train_score=False,
+modelos = {1: RidgeClassifier(), 2: LogisticRegression(),
+3: Perceptron(), 4: DecisionTreeClassifier(), 5:KNeighborsClassifier()}
+
+for index in modelos:
+  modelo = modelos[index]
+  resultados = cross_validate(modelo, features, target, return_train_score=False,
                scoring=['accuracy',
                         'average_precision',
                         'f1',
                         'precision',
                         'recall',
                         'roc_auc'])
-
-print(modelo)
-print(resultados['test_accuracy'])
+  print(modelo)
+  print("Acuracia")
+  print(resultados['test_accuracy'])
+  print("F1_score")
+  print(resultados['test_f1'])
+  print("Precisao")
+  print(resultados['test_precision'])
+  print("Recall")
+  print(resultados['test_recall'])
+  print("ROC_AUC")
+  print(resultados['test_roc_auc'])
 
 '''
 testes = round(modelo.predict(reg))
