@@ -9,12 +9,17 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 from sklearn.metrics import plot_confusion_matrix
 import seaborn as sn
+from statistics import mean
 from sklearn.model_selection import cross_validate
 from sklearn.linear_model import RidgeClassifier
-from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import Perceptron
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm
+from sklearn.feature_selection import chi2
+from sklearn.feature_selection import SelectKBest
+
 
 
 
@@ -85,13 +90,30 @@ print(modelo.summary())
 
 modelo1 = RidgeClassifier()
 modelo2 = LogisticRegression()
-modelo3 = PassiveAggressiveClassifier()
-modelo4 = Perceptron()
-modelo5 = DecisionTreeClassifier()
-modelo6 = KNeighborsClassifier()
+modelo3 = Perceptron()
+modelo4 = DecisionTreeClassifier()
+modelo5 = KNeighborsClassifier()
+modelo6 = svm.SVC()
+modelo7 = RandomForestClassifier()
+
+#---------------------feature selection-----------------------
+'''
+modelo7.fit(features, target)
+print("features importances do RandomForestClassifier:")
+print(modelo7.feature_importances_)
+'''
+
+features = SelectKBest(chi2, k=6).fit_transform(features, target)
+
+modelo7.fit(features, target)
+print("features importances do RandomForestClassifier depois do SelectKBest:")
+print(modelo7.feature_importances_)
+
+#-------------------------------------------------------------
 
 modelos = {1: RidgeClassifier(), 2: LogisticRegression(),
-3: Perceptron(), 4: DecisionTreeClassifier(), 5:KNeighborsClassifier()}
+3: Perceptron(), 4: DecisionTreeClassifier(), 5:KNeighborsClassifier(),
+6:svm.SVC(), 7: RandomForestClassifier()}
 
 for index in modelos:
   modelo = modelos[index]
@@ -104,15 +126,15 @@ for index in modelos:
                         'roc_auc'])
   print(modelo)
   print("Acuracia")
-  print(resultados['test_accuracy'])
+  print(mean(resultados['test_accuracy']))
   print("F1_score")
-  print(resultados['test_f1'])
+  print(mean(resultados['test_f1']))
   print("Precisao")
-  print(resultados['test_precision'])
+  print(mean(resultados['test_precision']))
   print("Recall")
-  print(resultados['test_recall'])
+  print(mean(resultados['test_recall']))
   print("ROC_AUC")
-  print(resultados['test_roc_auc'])
+  print(mean(resultados['test_roc_auc']))
 
 '''
 testes = round(modelo.predict(reg))
