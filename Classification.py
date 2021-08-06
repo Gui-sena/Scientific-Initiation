@@ -19,8 +19,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
-from sklearn.pipeline import make_pipeline
-from sklearn import preprocessing
+from sklearn.pipeline import make_pipeline 
+from sklearn.metrics import plot_roc_curve
 
 
 
@@ -78,6 +78,12 @@ features = reg.iloc[:, 0:24]
 
 target = reg.iloc[: , -1]
 
+regX = pd.read_csv('R_L_N_Teste.csv')
+
+testeX = regX.iloc[:, 0:24]
+
+testeY = regX.iloc[: , -1]
+
 
 #Regressão logística
 
@@ -106,11 +112,11 @@ print("features importances do RandomForestClassifier:")
 print(modelo7.feature_importances_)
 '''
 
-features = SelectKBest(chi2, k=6).fit_transform(features, target)
+# features = SelectKBest(chi2, k=6).fit_transform(features, target)
 
-modelo7.fit(features, target)
-print("features importances do RandomForestClassifier depois do SelectKBest:")
-print(modelo7.feature_importances_)
+# modelo7.fit(features, target)
+# print("features importances do RandomForestClassifier depois do SelectKBest:")
+# print(modelo7.feature_importances_)
 
 #-------------------------------------------------------------
 
@@ -138,6 +144,9 @@ for index in modelos:
   print(mean(resultados['test_recall']))
   print("ROC_AUC")
   print(mean(resultados['test_roc_auc']))
+
+svc_disp = plot_roc_curve(modelo1.fit(features, target), testeX, testeY)
+plt.show()
 
 '''
 testes = round(modelo.predict(reg))
