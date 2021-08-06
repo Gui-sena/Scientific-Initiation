@@ -41,7 +41,7 @@ def normaliza(lista):
     i = i + 1  
   return listaT
 
-'''
+
 i = 0
 j = 0
 normalizado = []
@@ -57,7 +57,7 @@ while j < 1:
     video[i] = normalizado[k]
     k = k + 1
   i = i + 1
-'''
+
 with open('R_L_N.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["L_color_image_MEAN","L_exp_image_MEAN","L_blur_image_MEAN",
@@ -97,7 +97,7 @@ modelo4 = DecisionTreeClassifier()
 modelo5 = KNeighborsClassifier()
 modelo6 = svm.SVC()
 modelo7 = RandomForestClassifier()
-pipeline = make_pipeline(preprocessing.StandardScaler(), RandomForestClassifier())
+# pipeline = make_pipeline(preprocessing.StandardScaler(), RandomForestClassifier())
 
 #---------------------feature selection-----------------------
 '''
@@ -116,7 +116,7 @@ print(modelo7.feature_importances_)
 
 modelos = {1: RidgeClassifier(), 2: LogisticRegression(),
 3: Perceptron(), 4: DecisionTreeClassifier(), 5:KNeighborsClassifier(),
-6:svm.SVC(), 7: RandomForestClassifier(), 8: pipeline}
+6:svm.SVC(), 7: RandomForestClassifier()}
 
 for index in modelos:
   modelo = modelos[index]
