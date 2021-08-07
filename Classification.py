@@ -145,7 +145,7 @@ for index in modelos:
   print("ROC_AUC")
   print(mean(resultados['test_roc_auc']))
 
-svc_disp = plot_roc_curve(modelo1.fit(features, target), testeX, testeY)
+svc_disp = plot_roc_curve(modelo7.fit(features, target), testeX, testeY)
 plt.show()
 
 '''
